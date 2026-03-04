@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Runjhun</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <!-- Audio (Hidden) -->
+    <audio id="bg-music" loop>
+    <source src="./music/Aankhon_Mein_Doob_Jaane_Ko.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="pop-sound">
+        <source src="./music/universfield-party-balloon-pop-323588.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Mute Button -->
+    <button id="mute-btn">🎵</button>
+
+    <!-- Sparkle Cursor Trail (Container) -->
+    <div id="cursor-trail"></div>
+
+    <!-- 1. Opening Experience -->
+    <section id="opening" class="fullscreen-section">
+        <div class="stars"></div>
+        <div class="intro-content">
+            <h1 class="intro-text">Someone very special has a surprise waiting...</h1>
+            <button id="enter-btn" class="glow-on-hover">Tap to Enter</button>
+        </div>
+    </section>
+
+    <!-- 2. Balloon Name Reveal -->
+    <section id="name-reveal" class="fullscreen-section hidden">
+        <div id="balloon-container">
+            <!-- Balloons added by JS -->
+        </div>
+        <h1 id="happy-birthday-msg" class="hidden">Happy Birthday Runjhun 🎉</h1>
+        <button id="next-to-gallery" class="nav-btn hidden glow-on-hover">Next Surprise ✨</button>
+    </section>
+
+    <!-- 3. Photo Memory Gallery -->
+    <section id="memory-gallery" class="fullscreen-section hidden">
+        <h2 class="section-title">Precious Memories 💖</h2>
+        <div class="gallery-container">
+            <!-- Provided photos -->
+            <div class="polaroid"><img src="./images/photo1.jpeg" alt="Memory"><div class="caption">Cutie</div></div>
+            <div class="polaroid"><img src="./images/photo2.jpeg" alt="Memory"><div class="caption">Beautiful</div></div>
+            <div class="polaroid"><img src="./images/photo3.jpeg" alt="Memory"><div class="caption">Smile</div></div>
+            <div class="polaroid"><img src="./images/photo4.jpeg" alt="Memory"><div class="caption">Gorgeous</div></div>
+            <div class="polaroid"><img src="./images/photo5.jpeg" alt="Memory"><div class="caption">Lovely</div></div>
+            <div class="polaroid"><img src="./images/photo6.jpeg" alt="Memory"><div class="caption">Beautiful</div></div>
+            <div class="polaroid"><img src="./images/photo7.jpeg" alt="Memory"><div class="caption">Smile</div></div>
+            <div class="polaroid"><img src="./images/photo8.jpeg" alt="Memory"><div class="caption">Gorgeous</div></div>
+            <div class="polaroid"><img src="./images/photo9.jpeg" alt="Memory"><div class="caption">Lovely</div></div>
+        </div>
+        </div>
+        <button id="slideshow-btn" class="glow-on-hover">Start Slideshow 📸</button>
+        <button id="next-to-gifts" class="nav-btn glow-on-hover">Next Surprise ✨</button>
+    </section>
+
+    <!-- Fullscreen Photo Modal -->
+    <div id="photo-modal" class="hidden">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="floating-hearts"></div>
+    </div>
+
+    <!-- 4. Gift Box Surprise -->
+    <section id="gifts" class="fullscreen-section hidden">
+        <h2 class="section-title">Pick a Gift! 🎁</h2>
+        <div class="gifts-container">
+            <div class="gift-box" data-surprise="You are the most amazing person! 💖">
+                <div class="ribbon"></div>
+                <div class="box"></div>
+            </div>
+            <div class="gift-box" data-surprise="Your smile lights up the room! ✨">
+                <div class="ribbon"></div>
+                <div class="box"></div>
+            </div>
+            <div class="gift-box" data-surprise="Wishing you endless happiness! 🌸">
+                <div class="ribbon"></div>
+                <div class="box"></div>
+            </div>
+        </div>
+        <div id="surprise-text" class="hidden"></div>
+        <button id="next-to-game" class="nav-btn hidden glow-on-hover">Next Surprise ✨</button>
+    </section>
+
+    <!-- 5. Mini Game - Pop Balloons -->
+    <section id="mini-game" class="fullscreen-section hidden">
+        <h2 class="section-title">Pop the Birthday Balloons! 🎈</h2>
+        <div class="score-board">Score: <span id="score">0</span> / 10</div>
+        <div id="game-area"></div>
+        <div id="game-reward" class="hidden">You unlocked a special birthday wish 💖</div>
+        <button id="next-to-cake" class="nav-btn hidden glow-on-hover">Next Surprise ✨</button>
+    </section>
+
+    <!-- 6. 3D Birthday Cake Interaction -->
+    <section id="cake-section" class="fullscreen-section hidden">
+        <h2 class="section-title">Click the cake to cut it 🎂</h2>
+        <div id="cake-container">
+            <!-- Simple CSS 3D Cake approximation -->
+            <div class="cake" id="birthday-cake">
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+                <div class="cake-top"></div>
+                <div class="cake-middle"></div>
+                <div class="cake-bottom"></div>
+            </div>
+        </div>
+        <div id="cake-message" class="hidden">Happy Birthday Runjhun ❤️</div>
+        <button id="next-to-envelope" class="nav-btn hidden glow-on-hover">Next Surprise ✨</button>
+    </section>
+
+    <!-- 7. Secret Message Envelope -->
+    <section id="envelope-section" class="fullscreen-section hidden">
+        <h2 class="section-title">Open your secret message 💌</h2>
+        <div class="envelope" id="secret-envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-paper">
+                <p>Dear Runjhun,<br>May your day be as beautiful and magical as you are. Happy Birthday! 💖</p>
+            </div>
+        </div>
+        <button id="next-to-finale" class="nav-btn hidden glow-on-hover">Finish ✨</button>
+    </section>
+
+    <!-- 8. Final Celebration -->
+    <section id="finale-section" class="fullscreen-section hidden">
+        <div class="finale-content">
+            <h1 class="giant-glow-text">HAPPY BIRTHDAY RUNJHUN 🎉</h1>
+        </div>
+    </section>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
